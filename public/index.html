@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>UCWG — Ultimate Common Wordlist Generator</title>
+<link rel="stylesheet" href="./css/style.css" />
+</head>
+<body data-theme="dark">
+<header class="site-header">
+  <div class="brand">
+    <div class="icon">🔐</div>
+    <div>
+      <h1>UCWG <small>Ultimate Common Wordlist Generator</small></h1>
+      <p class="desc">Browser-based, ethical wordlist generator for pentesters — now preloaded with your usernames.</p>
+    </div>
+  </div>
+  <div class="header-controls">
+    <label class="theme-toggle">
+      <input id="themeToggle" type="checkbox" />
+      <span>Light</span>
+    </label>
+    <a class="github" href="https://github.com/nxsniper-fira/UCWG" target="_blank" rel="noreferrer">Repo</a>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="panel config">
+    <h2>Configuration</h2>
+    <label>Base Words (one per line) — loaded from <code>data/usernames.txt</code></label>
+    <textarea id="baseWords" placeholder="Base words will be loaded..."></textarea>
+    <div class="controls-grid">
+      <div class="control-group">
+        <label>Number Ranges</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" value="1" class="numRange" /> 0-9</label>
+          <label><input type="checkbox" value="2" class="numRange" /> 00-99</label>
+          <label><input type="checkbox" value="3" class="numRange" /> 000-999</label>
+          <label><input type="checkbox" value="4" class="numRange" /> 0000-9999</label>
+          <label><input type="checkbox" value="year" class="numRange" /> Year 1900-2029</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label>Symbol Sets</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" value="basic" class="symSet" /> Basic (!@#$%)</label>
+          <label><input type="checkbox" value="extended" class="symSet" /> Extended (^&*()_+-=[]{})</label>
+          <label><input type="checkbox" value="complex" class="symSet" /> Complex (`"'/€£¥...)</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label>Case Variations</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" value="lower" class="caseVar" checked/> Lower</label>
+          <label><input type="checkbox" value="upper" class="caseVar" /> Upper</label>
+          <label><input type="checkbox" value="capitalize" class="caseVar" /> Capitalize</label>
+          <label><input type="checkbox" value="camel" class="caseVar" /> CamelCase</label>
+          <label><input type="checkbox" value="alt" class="caseVar" /> AlTeRnAtInG</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label>Leet Level</label>
+        <select id="leetLevel">
+          <option value="0">Off</option>
+          <option value="1" selected>Basic</option>
+          <option value="2">Advanced</option>
+          <option value="3">Extreme</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>Patterns</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" id="kbWalk" /> Keyboard walks (qwerty, asdf)</label>
+          <label><input type="checkbox" id="seq" /> Sequential (12345, abcde)</label>
+          <label><input type="checkbox" id="rept" /> Repetitive (aaa, 111)</label>
+          <label><input type="checkbox" id="dates" /> Date formats (DDMM, MMYYYY)</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label>Combination</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" id="combAll" checked/> All combinations (word+num+sym)</label>
+          <label><input type="checkbox" id="complexPattern" /> Complex patterns (!admin123@)</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="advanced">
+      <label>Advanced Options</label>
+      <div class="adv-row">
+        <label>Max Words (cap)</label>
+        <input id="maxWords" type="number" value="200000" min="100" max="100000000" />
+      </div>
+      <div class="adv-row">
+        <label>Deduplicate</label>
+        <input id="dedupe" type="checkbox" checked />
+      </div>
+      <div class="adv-row">
+        <label>Exclusion Filter (comma-separated)</label>
+        <input id="exclusion" type="text" placeholder="admin123, qwerty" />
+      </div>
+      <div class="adv-row">
+        <label>Load more usernames (paste, or upload file)</label>
+        <input id="fileInput" type="file" accept=".txt" />
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="generateBtn" class="btn primary">Generate</button>
+      <button id="stopBtn" class="btn danger" disabled>Stop</button>
+      <button id="clearBtn" class="btn">Clear</button>
+      <a id="downloadLink" class="btn download disabled" download="wordlist.txt">Download</a>
+    </div>
+
+    <div class="ethics">
+      <strong>Ethical Use Only:</strong> Use UCWG for authorized security testing. Unauthorized use is illegal.
+    </div>
+  </section>
+
+  <aside class="panel preview">
+    <h2>Preview & Stats</h2>
+    <div class="stats">
+      <div>Words: <span id="wordCount">0</span></div>
+      <div>Size: <span id="estSize">0 MB</span></div>
+      <div>Time: <span id="genTime">-</span></div>
+    </div>
+    <div class="progress">
+      <div id="progressBar" class="bar"></div>
+    </div>
+    <pre id="previewBox" class="previewBox"></pre>
+
+    <section class="examples">
+      <h3>Examples</h3>
+      <div class="example-list" id="exampleList"></div>
+    </section>
+
+    <footer class="panel-footer">
+      <small>UCWG — For ethical security testing only. © <span id="year"></span></small>
+    </footer>
+  </aside>
+</main>
+
+<script type="module" src="./js/script.js"></script>
+</body>
+</html>
